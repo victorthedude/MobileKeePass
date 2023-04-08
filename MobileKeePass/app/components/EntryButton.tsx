@@ -12,27 +12,11 @@ interface Props {
   text: string;
   onPress: (event: GestureResponderEvent) => void;
 }
+// { text, onPress }: Props
+const EntryButton: FunctionComponent = ({ text, onPress }: Props) => {
+  const handleOnPressOut = () => {};
 
-const AnimatedButton: FunctionComponent = ({ text, onPress }: Props) => {
-  const animatedScale = useRef(new Animated.Value(1)).current;
-
-  const handleOnPressOut = () => {
-    Animated.spring(animatedScale, {
-      toValue: 1,
-      bounciness: 12,
-      speed: 50,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const handleOnPressIn = () => {
-    Animated.spring(animatedScale, {
-      toValue: 0.85,
-      bounciness: 0,
-      speed: 50,
-      useNativeDriver: true,
-    }).start();
-  };
+  const handleOnPressIn = () => {};
 
   return (
     <Pressable
@@ -40,9 +24,7 @@ const AnimatedButton: FunctionComponent = ({ text, onPress }: Props) => {
       onPressOut={handleOnPressOut}
       onPress={onPress}
     >
-      <Animated.View
-        style={[style.button, { transform: [{ scale: animatedScale }] }]}
-      >
+      <Animated.View style={style.button}>
         <Text style={style.buttonText}>{text}</Text>
       </Animated.View>
     </Pressable>
@@ -52,20 +34,19 @@ const AnimatedButton: FunctionComponent = ({ text, onPress }: Props) => {
 const style = StyleSheet.create({
   button: {
     backgroundColor: "steelblue", // skyblue
-    //   backgroundColor: {},
-    //   width: 200,
-    //   height: 80,
     paddingVertical: 15,
     paddingHorizontal: 25,
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
     elevation: 3,
+    marginVertical: 10,
+    marginHorizontal: 5,    
   },
   buttonText: {
     color: "#fff",
-    fontSize: 30,
+    fontSize: 16,
   },
 });
 
-export default AnimatedButton;
+export default EntryButton;

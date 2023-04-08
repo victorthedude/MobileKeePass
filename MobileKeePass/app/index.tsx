@@ -7,12 +7,12 @@ export default function Page() {
 
   // check if a file has been opened recently
   const hasOpened = () => {
-    return true
+    return false
   };
 
   // open file system window, browse to select a .kdbx file.
   const fileSelector = () => {
-
+    router.push("database"); // placeholder functionality
   }
 
   // select the most recently opened .kdbx file. Save recent in memory in order
@@ -40,13 +40,13 @@ export default function Page() {
         {hasOpened() ? (
           <View style={styles.recent}>
             <AnimatedButton
-              text="Select .kdbx file"
+              text="Select new .kdbx file"
               onPress={(e) => fileSelector()}
             />
 
             <AnimatedButton 
               text="Open recent" 
-              onPress={(e) => {}} 
+              onPress={(e) => openRecent} 
             />
           </View>
         ) : (
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   infoText: {
     flex: 0.2,
     justifyContent: "center",
-    maxWidth: 960,
+    // maxWidth: 960,
     marginHorizontal: "auto",
     padding: 50,
     // borderWidth: 1,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   recent: {
     flex: 1,
     justifyContent: "space-evenly",
-    marginVertical: 50,
+    marginVertical: 60,
     transform: [{ translateY: -30 }],
     // borderWidth: 1,
   },
