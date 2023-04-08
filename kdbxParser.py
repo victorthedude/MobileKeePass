@@ -3,8 +3,8 @@ import re
 
 class kdbxParser:
 
-    def __init__(self, file, password):
-        self.db = PyKeePass(file, password=password)
+    def __init__(self, file_path, password):
+        self.db = PyKeePass(file_path, password=password)
 
         keys = ["/".join(g.path) if g.path else g.name for g in self.db.groups]
         self.groups = { k : self.__find_group(k) for k in keys }
