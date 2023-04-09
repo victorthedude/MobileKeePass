@@ -1,17 +1,41 @@
 import { StyleSheet, Text, View, Image, Button, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import AnimatedButton from "./components/AnimatedButton";
+import Database from "./database";
+
+interface kdbx {
+  groups: Group[];
+}
+interface Group {
+  title: string;
+  entries: Entry[];
+}
+
+interface Entry {
+  title: string;
+  // password: string
+}
 
 export default function Page() {
   const router = useRouter();
 
+  const testFile = {
+    groups: [
+      {title: "Group1", entries: [{title: "Entry1"},{title: "Entry2"}]},
+      {title: "Group2", entries: [{title: "Entry3"},{title: "Entry4"},{title: "Entry5"}]},
+      {title: "Group3", entries: [{title: "Entry6"}]},
+      {title: "Group4", entries: [{title: "Entry7"},{title: "Entry8"},{title: "Entry9"},{title: "Entry10"}]},
+    ]
+  }
+
   // check if a file has been opened recently
   const hasOpened = () => {
-    return false
+    return true
   };
 
   // open file system window, browse to select a .kdbx file.
   const fileSelector = () => {
+    global.kdbx = testFile;
     router.push("database"); // placeholder functionality
   }
 

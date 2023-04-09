@@ -1,8 +1,23 @@
-import { StyleSheet, View, Image, ScrollView, Button } from "react-native";
-import GroupButton from "./components/GroupButton";
+import {
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  Pressable,
+  Text,
+} from "react-native";
 import EntryButton from "./components/EntryButton";
+import { useRef, useState } from "react";
 
 export default function Database() {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const handleGroupButtonPress = (i: number) => {
+    if (i != selectedIndex) {
+      setSelectedIndex(i);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -12,20 +27,39 @@ export default function Database() {
       />
       <View style={styles.passwordsContainer}>
         <View style={styles.passwordGroups}>
-            <GroupButton text="Group1"/>
-            <GroupButton text="Group2"/>
-            <GroupButton text="Group3"/>
-            <GroupButton text="Group4"/>
+          {global.kdbx.groups.map((group, i: number) => {
+            return (
+              <Pressable
+                onPress={() => handleGroupButtonPress(i)}
+                key={group.title}
+              >
+                <View
+                  style={
+                    i == selectedIndex ? styles.selected : styles.unselected
+                  }
+                >
+                  <Text style={styles.text}>{group.title}</Text>
+                </View>
+              </Pressable>
+            );
+          })}
         </View>
 
         <View style={styles.passwordEntries}>
           <ScrollView>
-            <EntryButton text="Entry1"></EntryButton>
-            <EntryButton text="Entry2"></EntryButton>
-            <EntryButton text="Entry3"></EntryButton>
-            <EntryButton text="Entry4"></EntryButton>
-            <EntryButton text="Entry5"></EntryButton>
-            <EntryButton text="Entry6"></EntryButton>
+            {selectedIndex != -1 ? (
+              global.kdbx.groups[selectedIndex].entries.map((entry) => {
+                return (
+                  <EntryButton
+                    text={entry.title}
+                    key={entry.title}
+                    onPress={() => {}}
+                  />
+                );
+              })
+            ) : (
+              <View></View>
+            )}
           </ScrollView>
         </View>
       </View>
@@ -64,5 +98,39 @@ const styles = StyleSheet.create({
     flex: 0.65,
     // borderWidth: 1,
     justifyContent: "flex-start",
+  },
+
+  selected: {
+    backgroundColor: "#28557d",
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderTopLeftRadius: 40,
+    borderBottomLeftRadius: 40,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 3,
+    marginVertical: 10,
+    marginHorizontal: 5,
+  },
+  unselected: {
+    backgroundColor: "steelblue",
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderTopLeftRadius: 40,
+    borderBottomLeftRadius: 40,
+    borderTopRightRadius: 40,
+    borderBottomRightRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 3,
+    marginVertical: 10,
+    marginHorizontal: 5,
+  },
+  text: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
